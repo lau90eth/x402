@@ -448,7 +448,7 @@ describe("paymentMiddleware", () => {
     );
     mockProcessHTTPRequest.mockResolvedValue({ type: "no-payment-required" });
 
-    const middleware = paymentMiddleware(mockRoutes, {} as unknown as x402ResourceServer);
+    const middleware = paymentMiddleware(mockRoutes, {} as unknown as x402ResourceServer, undefined, undefined, true);
     const next = vi.fn().mockResolvedValue(undefined);
 
     await middleware(createMockContext(), next);

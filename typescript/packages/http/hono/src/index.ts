@@ -78,7 +78,7 @@ function facilitatorErrorResponse(c: Context, error: FacilitatorResponseError): 
  * @param httpServer - Pre-configured x402HTTPResourceServer instance
  * @param paywallConfig - Optional configuration for the built-in paywall UI
  * @param paywall - Optional custom paywall provider (overrides default)
- * @param syncFacilitatorOnStart - Whether to sync with the facilitator on startup (defaults to true)
+ * @param syncFacilitatorOnStart - Whether to sync with the facilitator on startup (defaults to false). Set to true only if your deployment environment guarantees warm instances (e.g., long-running servers). For serverless/edge environments (Cloudflare Workers, AWS Lambda), keep false to avoid cold-start timeouts.
  * @returns Hono middleware handler
  *
  * @example
@@ -98,7 +98,7 @@ export function paymentMiddlewareFromHTTPServer(
   httpServer: x402HTTPResourceServer,
   paywallConfig?: PaywallConfig,
   paywall?: PaywallProvider,
-  syncFacilitatorOnStart: boolean = true,
+  syncFacilitatorOnStart: boolean = false,
 ): MiddlewareHandler {
   // Register custom paywall provider if provided
   if (paywall) {
@@ -286,7 +286,7 @@ export function paymentMiddlewareFromHTTPServer(
  * @param server - Pre-configured x402ResourceServer instance
  * @param paywallConfig - Optional configuration for the built-in paywall UI
  * @param paywall - Optional custom paywall provider (overrides default)
- * @param syncFacilitatorOnStart - Whether to sync with the facilitator on startup (defaults to true)
+ * @param syncFacilitatorOnStart - Whether to sync with the facilitator on startup (defaults to false). Set to true only if your deployment environment guarantees warm instances (e.g., long-running servers). For serverless/edge environments (Cloudflare Workers, AWS Lambda), keep false to avoid cold-start timeouts.
  * @returns Hono middleware handler
  *
  * @example
@@ -304,7 +304,7 @@ export function paymentMiddleware(
   server: x402ResourceServer,
   paywallConfig?: PaywallConfig,
   paywall?: PaywallProvider,
-  syncFacilitatorOnStart: boolean = true,
+  syncFacilitatorOnStart: boolean = false,
 ): MiddlewareHandler {
   // Create the x402 HTTP server instance with the resource server
   const httpServer = new x402HTTPResourceServer(server, routes);
@@ -328,7 +328,7 @@ export function paymentMiddleware(
  * @param schemes - Optional array of scheme registrations for server-side payment processing
  * @param paywallConfig - Optional configuration for the built-in paywall UI
  * @param paywall - Optional custom paywall provider (overrides default)
- * @param syncFacilitatorOnStart - Whether to sync with the facilitator on startup (defaults to true)
+ * @param syncFacilitatorOnStart - Whether to sync with the facilitator on startup (defaults to false). Set to true only if your deployment environment guarantees warm instances (e.g., long-running servers). For serverless/edge environments (Cloudflare Workers, AWS Lambda), keep false to avoid cold-start timeouts.
  * @returns Hono middleware handler
  *
  * @example
@@ -349,7 +349,7 @@ export function paymentMiddlewareFromConfig(
   schemes?: SchemeRegistration[],
   paywallConfig?: PaywallConfig,
   paywall?: PaywallProvider,
-  syncFacilitatorOnStart: boolean = true,
+  syncFacilitatorOnStart: boolean = false,
 ): MiddlewareHandler {
   const ResourceServer = new x402ResourceServer(facilitatorClients);
 
